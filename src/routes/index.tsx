@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Nav } from "@/components/Nav";
+// nav now lives in root
 import { Hero } from "@/components/Hero";
 import { Row } from "@/components/Row";
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
@@ -29,7 +29,6 @@ function Index() {
 
   return (
     <div className="min-h-screen pb-20">
-      <Nav />
       {heroItem ? <Hero item={heroItem} /> : <div className="h-[85vh] bg-card animate-pulse" />}
       <main className="space-y-12 -mt-32 relative z-10">
         {t.data && <Row title="Trending Movies" items={t.data.results} />}
