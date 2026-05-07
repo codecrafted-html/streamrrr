@@ -2,7 +2,7 @@ const API_BASE = "https://api.themoviedb.org/3";
 export const IMG = (path: string | null, size: "w200" | "w300" | "w500" | "w780" | "original" = "w500") =>
   path ? `https://image.tmdb.org/t/p/${size}${path}` : "";
 
-const KEY = import.meta.env.VITE_TMDB_API_KEY as string | undefined;
+const KEY = (import.meta.env.VITE_TMDB_API_KEY as string | undefined) || "f54051edf8ad18a9f88754072fc4db54";
 
 export const hasTmdbKey = () => Boolean(KEY);
 
