@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "@tanstack/react-router";
 import { Home, Film, Tv, Search } from "lucide-react";
 import { useState } from "react";
+import { motion } from "framer-motion";
 
 export function Nav() {
   const loc = useLocation();
@@ -23,14 +24,19 @@ export function Nav() {
             <Link
               key={to}
               to={to}
-              className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
-                active
-                  ? "bg-white text-black shadow-lg"
-                  : "text-white/70 hover:text-white hover:bg-white/5"
+              className={`relative flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-colors duration-300 ${
+                active ? "text-black" : "text-white/70 hover:text-white"
               }`}
             >
-              <Icon className="w-4 h-4" />
-              <span className="hidden sm:inline">{label}</span>
+              {active && (
+                <motion.span
+                  layoutId="nav-pill"
+                  className="absolute inset-0 bg-white rounded-full shadow-lg"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
+              <Icon className="w-4 h-4 relative z-10" />
+              <span className="hidden sm:inline relative z-10">{label}</span>
             </Link>
           );
         })}
