@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { z } from "zod";
 import { useState } from "react";
-import { Nav } from "@/components/Nav";
+// nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
 import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
 import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
