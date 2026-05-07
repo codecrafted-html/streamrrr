@@ -13,6 +13,7 @@ import { Route as TvRouteImport } from './routes/tv'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as MoviesRouteImport } from './routes/movies'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as WatchTypeIdRouteImport } from './routes/watch.$type.$id'
 
 const TvRoute = TvRouteImport.update({
   id: '/tv',
@@ -34,18 +35,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const WatchTypeIdRoute = WatchTypeIdRouteImport.update({
+  id: '/watch/$type/$id',
+  path: '/watch/$type/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
   '/search': typeof SearchRoute
   '/tv': typeof TvRoute
+  '/watch/$type/$id': typeof WatchTypeIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/movies': typeof MoviesRoute
   '/search': typeof SearchRoute
   '/tv': typeof TvRoute
+  '/watch/$type/$id': typeof WatchTypeIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,14 @@ export interface FileRoutesById {
   '/movies': typeof MoviesRoute
   '/search': typeof SearchRoute
   '/tv': typeof TvRoute
+  '/watch/$type/$id': typeof WatchTypeIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/movies' | '/search' | '/tv'
+  fullPaths: '/' | '/movies' | '/search' | '/tv' | '/watch/$type/$id'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/movies' | '/search' | '/tv'
-  id: '__root__' | '/' | '/movies' | '/search' | '/tv'
+  to: '/' | '/movies' | '/search' | '/tv' | '/watch/$type/$id'
+  id: '__root__' | '/' | '/movies' | '/search' | '/tv' | '/watch/$type/$id'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +76,7 @@ export interface RootRouteChildren {
   MoviesRoute: typeof MoviesRoute
   SearchRoute: typeof SearchRoute
   TvRoute: typeof TvRoute
+  WatchTypeIdRoute: typeof WatchTypeIdRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -99,6 +109,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/watch/$type/$id': {
+      id: '/watch/$type/$id'
+      path: '/watch/$type/$id'
+      fullPath: '/watch/$type/$id'
+      preLoaderRoute: typeof WatchTypeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -107,6 +124,7 @@ const rootRouteChildren: RootRouteChildren = {
   MoviesRoute: MoviesRoute,
   SearchRoute: SearchRoute,
   TvRoute: TvRoute,
+  WatchTypeIdRoute: WatchTypeIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
