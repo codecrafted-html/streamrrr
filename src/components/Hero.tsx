@@ -27,14 +27,14 @@ export function Hero({ item }: { item: Media }) {
             <Link
               to="/watch/$type/$id"
               params={{ type, id: String(item.id) }}
-              className="inline-flex items-center gap-2 bg-white text-black px-7 py-3 rounded-full font-semibold hover:bg-white/90 transition"
+              className="inline-flex items-center gap-2 bg-white text-black px-7 py-3 rounded-full font-semibold hover:bg-white/90 transition shadow-xl"
             >
               <Play className="w-5 h-5 fill-black" /> Play
             </Link>
             <Link
               to="/watch/$type/$id"
               params={{ type, id: String(item.id) }}
-              className="inline-flex items-center gap-2 glass-pill px-7 py-3 rounded-full font-semibold hover:bg-white/10 transition"
+              className="inline-flex items-center gap-2 glass-pill px-7 py-3 rounded-full font-semibold text-white hover:bg-white/10 transition"
             >
               <Info className="w-5 h-5" /> Info
             </Link>
