@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
-import { Nav } from "@/components/Nav";
+// nav now in root
 import { Row } from "@/components/Row";
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
 import { popular, topRated, nowPlaying, trending, hasTmdbKey } from "@/lib/tmdb";
@@ -20,7 +20,6 @@ function Movies() {
 
   return (
     <div className="min-h-screen pt-28 pb-20">
-      <Nav />
       <h1 className="text-5xl font-black px-4 sm:px-8 mb-8">Movies</h1>
       <div className="space-y-12">
         {t.data && <Row title="Trending" items={tag(t.data.results)} />}
