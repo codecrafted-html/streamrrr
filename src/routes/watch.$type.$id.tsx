@@ -40,7 +40,6 @@ function Watch() {
 
   return (
     <div className="min-h-screen pb-20">
-      <Nav />
       <div className="relative">
         {info?.backdrop_path && (
           <div className="absolute inset-0 h-[60vh] overflow-hidden">
