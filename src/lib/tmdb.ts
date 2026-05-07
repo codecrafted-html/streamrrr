@@ -58,6 +58,21 @@ export const details = (type: "movie" | "tv", id: string | number) =>
 export const seasonEpisodes = (id: string | number, season: number) =>
   tmdb<{ episodes: Episode[] }>(`/tv/${id}/season/${season}`);
 
+export type Video = { key: string; site: string; type: string; official: boolean; name: string };
+export const videos = (type: "movie" | "tv", id: string | number) =>
+  tmdb<{ results: Video[] }>(`/${type}/${id}/videos`);
+
+export const pickTrailerKey = (vids: Video[] | undefined): string | undefined => {
+  if (!vids?.length) return undefined;
+  const yt = vids.filter((v) => v.site === "YouTube");
+  return (
+    yt.find((v) => v.type === "Trailer" && v.official)?.key ??
+    yt.find((v) => v.type === "Trailer")?.key ??
+    yt.find((v) => v.type === "Teaser")?.key ??
+    yt[0]?.key
+  );
+};
+
 export const embedUrl = (type: "movie" | "tv", id: string | number, season?: number, episode?: number) =>
   type === "movie"
     ? `https://111movies.net/movie/${id}`
