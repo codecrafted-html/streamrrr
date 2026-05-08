@@ -14,7 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      watch_progress: {
+        Row: {
+          backdrop_path: string | null
+          duration_seconds: number
+          episode: number | null
+          id: string
+          media_type: string
+          poster_path: string | null
+          progress_seconds: number
+          season: number | null
+          title: string
+          tmdb_id: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          backdrop_path?: string | null
+          duration_seconds?: number
+          episode?: number | null
+          id?: string
+          media_type: string
+          poster_path?: string | null
+          progress_seconds?: number
+          season?: number | null
+          title: string
+          tmdb_id: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          backdrop_path?: string | null
+          duration_seconds?: number
+          episode?: number | null
+          id?: string
+          media_type?: string
+          poster_path?: string | null
+          progress_seconds?: number
+          season?: number | null
+          title?: string
+          tmdb_id?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
