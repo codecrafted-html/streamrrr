@@ -40,6 +40,19 @@ function Watch() {
   const title = info?.title ?? info?.name ?? "Loading…";
   const year = (info?.release_date ?? info?.first_air_date ?? "").slice(0, 4);
 
+  useEffect(() => {
+    if (!info) return;
+    upsertWatchProgress({
+      tmdb_id: Number(id),
+      media_type: mediaType,
+      title: info.title ?? info.name ?? "Untitled",
+      poster_path: info.poster_path,
+      backdrop_path: info.backdrop_path,
+      season: mediaType === "tv" ? season : null,
+      episode: mediaType === "tv" ? episode : null,
+    });
+  }, [info, id, mediaType, season, episode]);
+
   return (
     <div className="min-h-screen pb-20">
       <div className="relative">
