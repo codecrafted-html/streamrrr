@@ -75,6 +75,8 @@ function Watch() {
               title={title}
               allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
               allowFullScreen
+              referrerPolicy="no-referrer"
+              sandbox="allow-scripts allow-same-origin allow-forms allow-presentation allow-pointer-lock allow-orientation-lock"
               className="w-full h-full"
             />
           </div>
