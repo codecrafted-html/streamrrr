@@ -3,6 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 // nav now lives in root
 import { Hero } from "@/components/Hero";
 import { Row } from "@/components/Row";
+import { ContinueWatching } from "@/components/ContinueWatching";
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
 import { trending, popular, topRated, nowPlaying, onTheAir, hasTmdbKey } from "@/lib/tmdb";
 
@@ -31,6 +32,7 @@ function Index() {
     <div className="min-h-screen pb-20">
       {heroItem ? <Hero item={heroItem} /> : <div className="h-[85vh] bg-card animate-pulse" />}
       <main className="space-y-12 -mt-32 relative z-10">
+        <ContinueWatching />
         {t.data && <Row title="Trending Movies" items={t.data.results} />}
         {pm.data && <Row title="Popular Movies" items={pm.data.results.map((r) => ({ ...r, media_type: "movie" as const }))} />}
         {pt.data && <Row title="Popular TV Shows" items={pt.data.results.map((r) => ({ ...r, media_type: "tv" as const }))} />}
