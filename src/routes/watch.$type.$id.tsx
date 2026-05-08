@@ -5,6 +5,8 @@ import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
 import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
+import { upsertWatchProgress } from "@/lib/watch-progress";
+import { useEffect } from "react";
 import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/watch/$type/$id")({
