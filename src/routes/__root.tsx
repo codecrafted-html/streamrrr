@@ -5,12 +5,9 @@ import {
   createRootRouteWithContext,
   useRouter,
   useRouterState,
-  HeadContent,
-  Scripts,
 } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 
-import appCss from "../styles.css?url";
 import { Nav } from "@/components/Nav";
 
 function NotFoundComponent() {
@@ -71,49 +68,10 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
-    meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Streamr — Watch Movies & TV" },
-      { name: "description", content: "Stream trending movies and TV shows in HD." },
-      { name: "author", content: "Streamr" },
-      { property: "og:title", content: "Streamr — Watch Movies & TV" },
-      { property: "og:description", content: "Stream trending movies and TV shows in HD." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Streamr — Watch Movies & TV" },
-      { name: "twitter:description", content: "Stream trending movies and TV shows in HD." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/df12fc10-6f04-4b03-98ab-afd53443b927/id-preview-9a8a2b31--4142bfee-2060-45b1-a597-b7fe76351529.lovable.app-1778179191474.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/df12fc10-6f04-4b03-98ab-afd53443b927/id-preview-9a8a2b31--4142bfee-2060-45b1-a597-b7fe76351529.lovable.app-1778179191474.png" },
-    ],
-    links: [
-      {
-        rel: "stylesheet",
-        href: appCss,
-      },
-    ],
-  }),
-  shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
   errorComponent: ErrorComponent,
 });
-
-function RootShell({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en">
-      <head>
-        <HeadContent />
-      </head>
-      <body>
-        {children}
-        <Scripts />
-      </body>
-    </html>
-  );
-}
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
