@@ -5,8 +5,7 @@ import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
 import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
-import { Star, Calendar, Clock, ArrowLeft, Download } from "lucide-react";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/watch/$type/$id")({
   validateSearch: z.object({ s: z.number().optional(), e: z.number().optional() }),
@@ -22,7 +21,6 @@ function Watch() {
 
   const [season, setSeason] = useState(s ?? 1);
   const [episode, setEpisode] = useState(e ?? 1);
-  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const { data: info } = useQuery({
     queryKey: ["details", mediaType, id],
@@ -36,9 +34,7 @@ function Watch() {
     enabled: enabled && mediaType === "tv",
   });
 
-  const imdbId = info?.imdb_id ?? info?.external_ids?.imdb_id ?? id;
-  const src = embedUrl(mediaType, imdbId, season, episode);
-  const dlUrl = downloadUrl(mediaType, imdbId, season, episode);
+  const src = embedUrl(mediaType, id, season, episode);
   const title = info?.title ?? info?.name ?? "Loading…";
   const year = (info?.release_date ?? info?.first_air_date ?? "").slice(0, 4);
 
@@ -53,11 +49,9 @@ function Watch() {
         )}
 
         <div className="relative pt-28 px-4 sm:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
-              <ArrowLeft className="w-4 h-4" /> Back
-            </Link>
-          </div>
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white mb-6">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Link>
 
           <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
             <iframe
@@ -129,32 +123,8 @@ function Watch() {
               </div>
             </div>
           )}
-
-          <div className="mt-10">
-            <button
-              onClick={() => setShowDownloadModal(true)}
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gold/10 hover:bg-gold/20 border border-gold/30 text-gold font-semibold transition-all"
-            >
-              <Download className="w-4 h-4" /> Download
-            </button>
-          </div>
         </div>
       </div>
-
-      <Dialog open={showDownloadModal} onOpenChange={setShowDownloadModal}>
-        <DialogContent className="max-w-3xl w-full p-0 border-0 bg-transparent">
-          <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
-            <iframe
-              src={dlUrl}
-              title={`${title} - Download`}
-              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
-              allowFullScreen
-              className="w-full h-full"
-            />
-          </div>
-        </DialogContent>
-      </Dialog>
-
       <ApiKeyBanner />
     </div>
   );
