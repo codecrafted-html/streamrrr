@@ -77,8 +77,3 @@ export const embedUrl = (type: "movie" | "tv", imdbId: string, season?: number, 
   type === "movie"
     ? `https://vidvault.ru/movie/${imdbId}`
     : `https://vidvault.ru/tv/${imdbId}/${season ?? 1}/${episode ?? 1}`;
-
-export const downloadUrl = (type: "movie" | "tv", imdbId: string, season?: number, episode?: number) =>
-  type === "movie"
-    ? `https://vidvault.ru/movie/${imdbId}`
-    : `https://vidvault.ru/tv/${imdbId}/${season ?? 1}/${episode ?? 1}`;

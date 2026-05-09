@@ -4,8 +4,9 @@ import { z } from "zod";
 import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
-import { details, seasonEpisodes, embedUrl, downloadUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
+import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
 import { Star, Calendar, Clock, ArrowLeft, Download } from "lucide-react";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 export const Route = createFileRoute("/watch/$type/$id")({
   validateSearch: z.object({ s: z.number().optional(), e: z.number().optional() }),
@@ -21,6 +22,7 @@ function Watch() {
 
   const [season, setSeason] = useState(s ?? 1);
   const [episode, setEpisode] = useState(e ?? 1);
+  const [showDownloadModal, setShowDownloadModal] = useState(false);
 
   const { data: info } = useQuery({
     queryKey: ["details", mediaType, id],
@@ -55,14 +57,6 @@ function Watch() {
             <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
               <ArrowLeft className="w-4 h-4" /> Back
             </Link>
-            <a
-              href={dlUrl}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 glass-pill px-5 py-2.5 rounded-full text-sm font-semibold text-white hover:bg-white/10 transition"
-            >
-              <Download className="w-4 h-4" /> Download
-            </a>
           </div>
 
           <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
@@ -135,8 +129,32 @@ function Watch() {
               </div>
             </div>
           )}
+
+          <div className="mt-10">
+            <button
+              onClick={() => setShowDownloadModal(true)}
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gold/10 hover:bg-gold/20 border border-gold/30 text-gold font-semibold transition-all"
+            >
+              <Download className="w-4 h-4" /> Download
+            </button>
+          </div>
         </div>
       </div>
+
+      <Dialog open={showDownloadModal} onOpenChange={setShowDownloadModal}>
+        <DialogContent className="max-w-3xl w-full p-0 border-0 bg-transparent">
+          <div className="relative aspect-video rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
+            <iframe
+              src={dlUrl}
+              title={`${title} - Download`}
+              allow="autoplay; encrypted-media; fullscreen; picture-in-picture"
+              allowFullScreen
+              className="w-full h-full"
+            />
+          </div>
+        </DialogContent>
+      </Dialog>
+
       <ApiKeyBanner />
     </div>
   );
