@@ -4,8 +4,8 @@ import { z } from "zod";
 import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
-import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
-import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
+import { details, seasonEpisodes, embedUrl, downloadUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
+import { Star, Calendar, Clock, ArrowLeft, Download } from "lucide-react";
 
 export const Route = createFileRoute("/watch/$type/$id")({
   validateSearch: z.object({ s: z.number().optional(), e: z.number().optional() }),
@@ -34,7 +34,9 @@ function Watch() {
     enabled: enabled && mediaType === "tv",
   });
 
-  const src = embedUrl(mediaType, id, season, episode);
+  const imdbId = info?.imdb_id ?? info?.external_ids?.imdb_id ?? id;
+  const src = embedUrl(mediaType, imdbId, season, episode);
+  const dlUrl = downloadUrl(mediaType, imdbId, season, episode);
   const title = info?.title ?? info?.name ?? "Loading…";
   const year = (info?.release_date ?? info?.first_air_date ?? "").slice(0, 4);
 
@@ -49,9 +51,19 @@ function Watch() {
         )}
 
         <div className="relative pt-28 px-4 sm:px-8 max-w-7xl mx-auto">
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white mb-6">
-            <ArrowLeft className="w-4 h-4" /> Back
-          </Link>
+          <div className="flex items-center justify-between mb-6">
+            <Link to="/" className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-white transition-colors">
+              <ArrowLeft className="w-4 h-4" /> Back
+            </Link>
+            <a
+              href={dlUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 glass-pill px-5 py-2.5 rounded-full text-sm font-semibold text-white hover:bg-white/10 transition"
+            >
+              <Download className="w-4 h-4" /> Download
+            </a>
+          </div>
 
           <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
             <iframe

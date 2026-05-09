@@ -73,7 +73,12 @@ export const pickTrailerKey = (vids: Video[] | undefined): string | undefined =>
   );
 };
 
-export const embedUrl = (type: "movie" | "tv", id: string | number, season?: number, episode?: number) =>
+export const embedUrl = (type: "movie" | "tv", imdbId: string, season?: number, episode?: number) =>
   type === "movie"
-    ? `https://111movies.net/movie/${id}`
-    : `https://111movies.net/tv/${id}/${season ?? 1}/${episode ?? 1}`;
+    ? `https://vidvault.ru/movie/${imdbId}`
+    : `https://vidvault.ru/tv/${imdbId}/${season ?? 1}/${episode ?? 1}`;
+
+export const downloadUrl = (type: "movie" | "tv", imdbId: string, season?: number, episode?: number) =>
+  type === "movie"
+    ? `https://vidvault.ru/movie/${imdbId}`
+    : `https://vidvault.ru/tv/${imdbId}/${season ?? 1}/${episode ?? 1}`;
