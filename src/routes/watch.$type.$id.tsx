@@ -65,6 +65,23 @@ function Watch() {
             />
           </div>
 
+          <div className="mt-4 flex items-center gap-2 flex-wrap">
+            <span className="text-xs uppercase tracking-wider text-white/50">Source</span>
+            {EMBED_SOURCES.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setSource(s.id)}
+                className={`px-4 py-1.5 rounded-full text-sm border transition ${
+                  source === s.id
+                    ? "bg-white text-black border-white"
+                    : "border-white/15 text-white/80 hover:border-white/40"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
+          </div>
+
           <div className="mt-8 grid md:grid-cols-[200px_1fr] gap-8">
             {info?.poster_path && (
               <img src={IMG(info.poster_path, "w300")} alt={title} className="rounded-xl hidden md:block" />
