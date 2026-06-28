@@ -1,43 +1,10 @@
 import { Link } from "@tanstack/react-router";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef, useState } from "react";
-import { IMG, type Media, videos, pickTrailerKey } from "@/lib/tmdb";
-import { Play, Info, Volume2, VolumeX } from "lucide-react";
+import { IMG, type Media } from "@/lib/tmdb";
+import { Play, Info } from "lucide-react";
 
 export function Hero({ item }: { item: Media }) {
   const type = item.media_type ?? (item.title ? "movie" : "tv");
   const title = item.title ?? item.name ?? "";
-
-  const { data } = useQuery({
-    queryKey: ["videos", type, item.id],
-    queryFn: () => videos(type, item.id),
-  });
-  const trailerKey = pickTrailerKey(data?.results);
-
-  const [muted, setMuted] = useState(true);
-  const [showVideo, setShowVideo] = useState(false);
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
-  // Delay video mount so the backdrop shows first, then trailer fades in
-  useEffect(() => {
-    if (!trailerKey) return;
-    const t = setTimeout(() => setShowVideo(true), 600);
-    return () => clearTimeout(t);
-  }, [trailerKey]);
-
-  // Send YouTube postMessage to toggle mute without reloading
-  useEffect(() => {
-    const win = iframeRef.current?.contentWindow;
-    if (!win) return;
-    win.postMessage(
-      JSON.stringify({ event: "command", func: muted ? "mute" : "unMute", args: [] }),
-      "*"
-    );
-  }, [muted, showVideo]);
-
-  const ytSrc = trailerKey
-    ? `https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=1&controls=0&loop=1&playlist=${trailerKey}&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&enablejsapi=1`
-    : null;
 
   return (
     <div className="relative h-[85vh] min-h-[600px] w-full overflow-hidden">
@@ -48,19 +15,6 @@ export function Hero({ item }: { item: Media }) {
           alt={title}
           className="absolute inset-0 w-full h-full object-cover"
         />
-      )}
-
-      {/* Trailer video layer */}
-      {ytSrc && showVideo && (
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <iframe
-            ref={iframeRef}
-            src={ytSrc}
-            title={`${title} trailer`}
-            allow="autoplay; encrypted-media"
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[177.78vh] min-w-full h-[56.25vw] min-h-full border-0 animate-in fade-in duration-700"
-          />
-        </div>
       )}
 
       {/* Gradients */}
@@ -89,15 +43,6 @@ export function Hero({ item }: { item: Media }) {
             >
               <Info className="w-5 h-5" /> Info
             </Link>
-            {ytSrc && (
-              <button
-                onClick={() => setMuted((m) => !m)}
-                className="glass-pill p-3 rounded-full text-white hover:bg-white/10 transition"
-                aria-label={muted ? "Unmute" : "Mute"}
-              >
-                {muted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
-              </button>
-            )}
           </div>
         </div>
       </div>
