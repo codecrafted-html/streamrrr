@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
-import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
+import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey, EMBED_SOURCES, type EmbedSource } from "@/lib/tmdb";
 import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/watch/$type/$id")({
