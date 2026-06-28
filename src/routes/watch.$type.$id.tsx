@@ -21,6 +21,7 @@ function Watch() {
 
   const [season, setSeason] = useState(s ?? 1);
   const [episode, setEpisode] = useState(e ?? 1);
+  const [source, setSource] = useState<EmbedSource>("cinesrc");
 
   const { data: info } = useQuery({
     queryKey: ["details", mediaType, id],
@@ -34,7 +35,7 @@ function Watch() {
     enabled: enabled && mediaType === "tv",
   });
 
-  const src = embedUrl(mediaType, id, season, episode);
+  const src = embedUrl(mediaType, id, season, episode, source);
   const title = info?.title ?? info?.name ?? "Loading…";
   const year = (info?.release_date ?? info?.first_air_date ?? "").slice(0, 4);
 
