@@ -73,7 +73,31 @@ export const pickTrailerKey = (vids: Video[] | undefined): string | undefined =>
   );
 };
 
-export const embedUrl = (type: "movie" | "tv", id: string | number, season?: number, episode?: number) =>
-  type === "movie"
-    ? `https://111movies.net/movie/${id}`
-    : `https://111movies.net/tv/${id}/${season ?? 1}/${episode ?? 1}`;
+export type EmbedSource = "cinesrc" | "nxsha";
+
+export const EMBED_SOURCES: { id: EmbedSource; label: string }[] = [
+  { id: "cinesrc", label: "CineSrc" },
+  { id: "nxsha", label: "Nxsha" },
+];
+
+export const embedUrl = (
+  type: "movie" | "tv",
+  id: string | number,
+  season?: number,
+  episode?: number,
+  source: EmbedSource = "cinesrc",
+) => {
+  const s = season ?? 1;
+  const e = episode ?? 1;
+  switch (source) {
+    case "nxsha":
+      return type === "movie"
+        ? `https://web.nxsha.app/embed/movie/${id}`
+        : `https://web.nxsha.app/embed/tv/${id}/${s}/${e}`;
+    case "cinesrc":
+    default:
+      return type === "movie"
+        ? `https://cinesrc.st/embed/movie/${id}`
+        : `https://cinesrc.st/embed/tv/${id}/${s}/${e}`;
+  }
+};

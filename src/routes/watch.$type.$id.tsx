@@ -4,7 +4,7 @@ import { z } from "zod";
 import { useState } from "react";
 // nav now in root
 import { ApiKeyBanner } from "@/components/ApiKeyBanner";
-import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey } from "@/lib/tmdb";
+import { details, seasonEpisodes, embedUrl, IMG, hasTmdbKey, EMBED_SOURCES, type EmbedSource } from "@/lib/tmdb";
 import { Star, Calendar, Clock, ArrowLeft } from "lucide-react";
 
 export const Route = createFileRoute("/watch/$type/$id")({
@@ -21,6 +21,7 @@ function Watch() {
 
   const [season, setSeason] = useState(s ?? 1);
   const [episode, setEpisode] = useState(e ?? 1);
+  const [source, setSource] = useState<EmbedSource>("cinesrc");
 
   const { data: info } = useQuery({
     queryKey: ["details", mediaType, id],
@@ -34,7 +35,7 @@ function Watch() {
     enabled: enabled && mediaType === "tv",
   });
 
-  const src = embedUrl(mediaType, id, season, episode);
+  const src = embedUrl(mediaType, id, season, episode, source);
   const title = info?.title ?? info?.name ?? "Loading…";
   const year = (info?.release_date ?? info?.first_air_date ?? "").slice(0, 4);
 
@@ -62,6 +63,23 @@ function Watch() {
               allowFullScreen
               className="w-full h-full"
             />
+          </div>
+
+          <div className="mt-4 flex items-center gap-2 flex-wrap">
+            <span className="text-xs uppercase tracking-wider text-white/50">Source</span>
+            {EMBED_SOURCES.map((s) => (
+              <button
+                key={s.id}
+                onClick={() => setSource(s.id)}
+                className={`px-4 py-1.5 rounded-full text-sm border transition ${
+                  source === s.id
+                    ? "bg-white text-black border-white"
+                    : "border-white/15 text-white/80 hover:border-white/40"
+                }`}
+              >
+                {s.label}
+              </button>
+            ))}
           </div>
 
           <div className="mt-8 grid md:grid-cols-[200px_1fr] gap-8">
